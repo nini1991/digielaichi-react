@@ -5,23 +5,46 @@ import './App.css';
 import User from './components/User'
 class App extends Component {
   state={
-    person: []
+    person: [],
+    isLoaded:false
   }
 
-componentWillMount(){
+componentDidMount(){
 axios.get('https://jsonplaceholder.typicode.com/users')
-.then(res=>{
-const person = res.data;
-this.setState=({person}) ;
-console.log(this.setState=({person}));
-})
+.then(res => 
+  {
+    this.setState({
+      isLoaded:true,
+      person:res.data,
+    })
+    console.log(res);
+  });
+
 }
   render() {
-    return (
-      <div className="App">
-       <User name={this.state.person[0].name}>hello</User>
-      </div>
-    );
+    var { isLoaded,person} =this.state;
+    
+    if(!isLoaded){
+      return(
+        <div>Loading...</div>
+      )
+    }
+    else{
+      return (
+        <div className="App">
+        <ul>
+         {
+            person.map(person =>(
+            <li key={person.id}>
+              {person.name}
+
+            </li>
+           ))}
+         </ul>
+        </div>
+      );
+    }
+    
   }
 }
 
