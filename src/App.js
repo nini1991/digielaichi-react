@@ -22,25 +22,29 @@ axios.get('https://jsonplaceholder.typicode.com/users')
 
 }
   render() {
-    var { isLoaded,person} =this.state;
+    const isLoaded=this.state.isLoaded;
+    const person = this.state.person.map(person =>{
+
+       return (
+        <div>
+        <User key={person.id} name={person.name} email={person.email}></User>
+        </div>
+       )
+       
+    });
     
     if(!isLoaded){
       return(
-        <div>Loading...</div>
+        
+      <div class="spinner-border text-primary" role="status" style={{ width: "350px",  padding: "16px", margin: "10px",
+                boxsizing: "border-box", cursor: "pointer" }}>
+      </div>
       )
     }
     else{
       return (
-        <div className="App">
-        <ul>
-         {
-            person.map(person =>(
-            <li key={person.id}>
-              {person.name}
-
-            </li>
-           ))}
-         </ul>
+        <div className='Users' >
+        {person}
         </div>
       );
     }
